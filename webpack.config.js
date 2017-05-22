@@ -1,17 +1,36 @@
-const path = require('path');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+var webpack = require('webpack');
+
 module.exports = {
+  resolve: {
+    extensions: ['.scss', '.ts', '.js']
+  },
+
+  plugins: [
+    new LiveReloadPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   entry: './src/index.ts',
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'app.bundle.js'
+    path: __dirname + "/dist",
+    publicPath: 'dist/',
+    filename: "app.bundle.js"
   },
-  resolve: {
-    // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: [".ts", ".js"]
-  },
+  devtool: 'inline-source-map',
   module: {
-    rules: [
-      { test: /\.(ts)$/, use: 'ts-loader' }
+    loaders: [
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader'
+      },
+      {
+        test: /\.scss$/,
+        use: [ 'style-loader', 'css-loader?modules', 'sass-loader' ]
+      }
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
+    hot: true
   }
 };
