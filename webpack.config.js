@@ -1,21 +1,19 @@
-var LiveReloadPlugin = require('webpack-livereload-plugin');
+//var LiveReloadPlugin = require('webpack-livereload-plugin');
 var webpack = require('webpack');
 
 module.exports = {
-  resolve: {
-    extensions: ['.scss', '.ts', '.js']
-  },
 
-  plugins: [
-    new LiveReloadPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-  ],
+
   entry: './src/index.ts',
   output: {
     path: __dirname + "/dist",
     publicPath: 'dist/',
     filename: "app.bundle.js"
   },
+  resolve: {
+    extensions: ['.scss', '.ts', '.js']
+  },
+
   devtool: 'inline-source-map',
   module: {
     loaders: [
@@ -32,5 +30,13 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     hot: true
-  }
+  },
+
+  plugins: [
+    //new LiveReloadPlugin(),
+    // new webpack.HotModuleReplacementPlugin()
+      new webpack.HotModuleReplacementPlugin(),
+
+    new webpack.NamedModulesPlugin()
+  ]
 };
